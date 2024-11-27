@@ -1,0 +1,250 @@
+## JAVA
+- 
+
+```java
+import java.util.*;
+
+class FinancialTransactionProcessor {
+
+    private double balance;
+    private List<Transaction> transactions;
+
+    // Constructor to initialize balance and transaction list
+    public FinancialTransactionProcessor(double balance, List<Transaction> transactions) {
+        this.balance = balance;
+        this.transactions = transactions;
+    }
+
+    // Transaction class to hold individual transaction data
+    static class Transaction {
+        String transactionType;  // Type of transaction (deposit/withdrawal/transfer)
+        double amount;           // Transaction amount
+        int transactionHour;     // Hour of the transaction
+        double transactionFee;   // Fee associated with the transaction
+
+        public Transaction(String transactionType, double amount, int transactionHour, double transactionFee) {
+            this.transactionType = transactionType;
+            this.amount = amount;
+            this.transactionHour = transactionHour;
+            this.transactionFee = transactionFee;
+        }
+    }
+
+    // Method to calculate total fee and final balance after processing all transactions
+    public double[] processTransactions() {
+        double totalFee = 0;
+        double currentBalance = this.balance;
+
+        for (Transaction transaction : transactions) {
+            if (isValidTransaction(transaction, currentBalance)) {
+                currentBalance -= (transaction.amount + transaction.transactionFee); // Deduct transaction amount and fee
+                totalFee += transaction.transactionFee; // Add fee to total fee
+            }
+        }
+
+        if (currentBalance < this.balance) {
+            return new double[]{totalFee, currentBalance}; // Return total fee and the final balance
+        } else {
+            return new double[]{-1}; // Return -1 if no valid transaction was processed
+        }
+    }
+
+    // Method to check if a transaction is valid based on certain constraints
+    private boolean isValidTransaction(Transaction transaction, double currentBalance) {
+        // Add your conditions to check for transaction validity here, e.g., min balance check
+        // Example: Withdrawal should not exceed current balance
+        if (transaction.transactionType.equals("withdrawal") && transaction.amount > currentBalance) {
+            return false;
+        }
+        // Add more checks based on transaction type, time constraints, etc.
+        return true;
+    }
+
+    public static void main(String[] args) {
+        // Initial balance
+        double balance = 5000;
+
+        // Sample transactions
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction("deposit", 2000, 10, 5));
+        transactions.add(new Transaction("withdrawal", 1500, 12, 3));
+        transactions.add(new Transaction("transfer", 1000, 15, 2));
+
+        // Create a processor instance
+        FinancialTransactionProcessor processor = new FinancialTransactionProcessor(balance, transactions);
+
+        // Process transactions and get the result
+        double[] result = processor.processTransactions();
+
+        // Print the result (total fee and final balance)
+        if (result.length == 1 && result[0] == -1) {
+            System.out.println("No valid transactions processed.");
+        } else {
+            System.out.println("Total Fee: " + result[0]);
+            System.out.println("Final Balance: " + result[1]);
+        }
+    }
+}
+```
+
+## C++
+-
+
+```C++
+
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+class FinancialTransactionProcessor {
+public:
+    FinancialTransactionProcessor(double balance, vector<Transaction>& transactions) {
+        this->balance = balance;
+        this->transactions = transactions;
+    }
+
+    // Transaction struct to hold transaction data
+    struct Transaction {
+        string transactionType; // Type of transaction (deposit/withdrawal/transfer)
+        double amount;          // Amount of transaction
+        int transactionHour;    // Hour of transaction
+        double transactionFee;  // Fee for the transaction
+    };
+
+    // Method to process transactions and calculate fees and final balance
+    pair<double, double> processTransactions() {
+        double totalFee = 0;
+        double currentBalance = this->balance;
+
+        for (auto& transaction : transactions) {
+            if (isValidTransaction(transaction, currentBalance)) {
+                currentBalance -= (transaction.amount + transaction.transactionFee); // Deduct transaction amount and fee
+                totalFee += transaction.transactionFee; // Add fee to total fee
+            }
+        }
+
+        if (currentBalance < this->balance) {
+            return {totalFee, currentBalance}; // Return total fee and the final balance
+        } else {
+            return {-1, -1}; // Return -1 if no valid transaction was processed
+        }
+    }
+
+private:
+    double balance;
+    vector<Transaction> transactions;
+
+    // Method to validate transactions based on certain constraints
+    bool isValidTransaction(const Transaction& transaction, double currentBalance) {
+        // Add your conditions to check for transaction validity here, e.g., min balance check
+        if (transaction.transactionType == "withdrawal" && transaction.amount > currentBalance) {
+            return false;
+        }
+        // More checks can be added based on transaction type, time, etc.
+        return true;
+    }
+};
+
+int main() {
+    double balance = 5000;
+
+    // Sample transactions
+    vector<FinancialTransactionProcessor::Transaction> transactions = {
+        {"deposit", 2000, 10, 5},
+        {"withdrawal", 1500, 12, 3},
+        {"transfer", 1000, 15, 2}
+    };
+
+    // Create processor instance
+    FinancialTransactionProcessor processor(balance, transactions);
+
+    // Process the transactions
+    auto result = processor.processTransactions();
+
+    // Output the result
+    if (result.first == -1) {
+        cout << "No valid transactions processed." << endl;
+    } else {
+        cout << "Total Fee: " << result.first << endl;
+        cout << "Final Balance: " << result.second << endl;
+    }
+
+    return 0;
+}
+```
+## Python
+-
+
+```python
+from collections import defaultdict
+
+class FinancialTransactionProcessor:
+    def __init__(self, balance, transactions):
+        """
+        Initializes the FinancialTransactionProcessor with the balance and transactions.
+        
+        :param balance: float - Initial balance.
+        :param transactions: List[Tuple[str, float, int, float]] - List of transactions.
+        """
+        self.balance = balance
+        self.transactions = transactions
+
+    def process_transactions(self):
+        """
+        Processes all transactions, calculates the total fee and final balance.
+        
+        :return: Tuple[float, float] - (Total fee, Final balance) or (-1, -1) if no valid transaction processed.
+        """
+        total_fee = 0
+        current_balance = self.balance
+
+        for transaction in self.transactions:
+            if self.is_valid_transaction(transaction, current_balance):
+                current_balance -= (transaction[1] + transaction[3])  # Deduct amount and fee
+                total_fee += transaction[3]  # Add fee to total fee
+
+        if current_balance < self.balance:
+            return total_fee, current_balance  # Return total fee and final balance
+        else:
+            return -1, -1  # Return -1 if no valid transaction was processed
+
+    def is_valid_transaction(self, transaction, current_balance):
+        """
+        Checks if the transaction is valid based on some constraints.
+        
+        :param transaction: Tuple[str, float, int, float] - The transaction details.
+        :param current_balance: float - The current available balance.
+        :return: bool - True if transaction is valid, False otherwise.
+        """
+        # Add your conditions to check for transaction validity here, e.g., withdrawal > balance
+        if transaction[0] == "withdrawal" and transaction[1] > current_balance:
+            return False
+        # Additional checks can be added based on the problem requirements
+        return True
+
+
+# Example Usage:
+if __name__ == "__main__":
+    balance = 5000
+    transactions = [
+        ("deposit", 2000, 10, 5),
+        ("withdrawal", 1500, 12, 3),
+        ("transfer", 1000, 15, 2)
+    ]
+
+    # Create processor instance
+    processor = FinancialTransactionProcessor(balance, transactions)
+
+    # Process the transactions
+    result = processor.process_transactions()
+
+    # Output the result
+    if result[0] == -1:
+        print("No valid transactions processed.")
+    else:
+        print(f"Total Fee: {result[0]}")
+        print(f"Final Balance: {result[1]}")
+
+```
