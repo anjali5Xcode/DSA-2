@@ -1,4 +1,4 @@
-## Warehouse Inventory Management
+# Warehouse Inventory Management
 
 ### Problem Statement
 You are managing a warehouse inventory system. Each product in the warehouse has a unique ID, a name, and a quantity. You are tasked with implementing the following functionalities:
