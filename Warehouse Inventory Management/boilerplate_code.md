@@ -194,12 +194,3 @@ if __name__ == "__main__":
     main()
 
 ```
-
-## Explanation of Boilerplate Code
-
-* Class Product: Represents a single product with its name and quantity.
-* Class WarehouseInventory:
-  * Contains an unordered map (inventory) where the key is the product ID, and the value is a pointer to a Product object.
-  * Includes methods for adding, removing, and searching products (to be implemented).
-* Main Function: Reads the input, determines the operation type, and calls the appropriate method from WarehouseInventory.
-
