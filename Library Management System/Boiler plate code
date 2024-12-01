@@ -1,0 +1,135 @@
+# Library Management System
+
+This file contains the implementation of a Library Management System in **Java**, **C++**, and **Python**. Each section demonstrates how to add and view books using basic data structures.
+
+---
+
+## Code Implementation
+
+```java
+// JAVA IMPLEMENTATION
+import java.util.*;
+
+class LibraryManagementSystem {
+    static class Book {
+        String title;
+        String author;
+        boolean availability;
+
+        public Book(String title, String author) {
+            this.title = title;
+            this.author = author;
+            this.availability = true;
+        }
+    }
+
+    private final Map<String, Book> books = new HashMap<>();
+
+    public void addBook(String title, String author, String isbn) {
+        if (books.containsKey(isbn)) {
+            System.out.println("Book with ISBN " + isbn + " already exists.");
+        } else {
+            books.put(isbn, new Book(title, author));
+            System.out.println("Book '" + title + "' added successfully!");
+        }
+    }
+
+    public void viewAllBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available in the library.");
+        } else {
+            System.out.println("Library Collection:");
+            for (Map.Entry<String, Book> entry : books.entrySet()) {
+                Book book = entry.getValue();
+                System.out.println("ISBN: " + entry.getKey() + ", Title: " + book.title +
+                                   ", Author: " + book.author + 
+                                   ", Status: " + (book.availability ? "Available" : "Not Available"));
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        LibraryManagementSystem library = new LibraryManagementSystem();
+        library.addBook("Harry Potter", "J.K. Rowling", "1234");
+        library.viewAllBooks();
+    }
+}
+
+
+
+// C++ IMPLEMENTATION
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct Book {
+    string title;
+    string author;
+    bool availability;
+
+    Book(string t, string a) : title(t), author(a), availability(true) {}
+};
+
+class LibraryManagementSystem {
+    unordered_map<string, Book> books;
+
+public:
+    void addBook(string title, string author, string isbn) {
+        if (books.find(isbn) != books.end()) {
+            cout << "Book with ISBN " << isbn << " already exists.\n";
+        } else {
+            books[isbn] = Book(title, author);
+            cout << "Book '" << title << "' added successfully!\n";
+        }
+    }
+
+    void viewAllBooks() {
+        if (books.empty()) {
+            cout << "No books available in the library.\n";
+        } else {
+            cout << "Library Collection:\n";
+            for (const auto& [isbn, book] : books) {
+                cout << "ISBN: " << isbn << ", Title: " << book.title
+                     << ", Author: " << book.author
+                     << ", Status: " << (book.availability ? "Available" : "Not Available") << "\n";
+            }
+        }
+    }
+};
+
+int main() {
+    LibraryManagementSystem library;
+    library.addBook("Harry Potter", "J.K. Rowling", "1234");
+    library.viewAllBooks();
+    return 0;
+}
+
+
+
+// PYTHON IMPLEMENTATION
+class LibraryManagementSystem:
+    def __init__(self):
+        self.books = {}
+
+    def add_book(self, title, author, isbn):
+        if isbn in self.books:
+            print(f"Book with ISBN {isbn} already exists.")
+        else:
+            self.books[isbn] = {"title": title, "author": author, "availability": True}
+            print(f"Book '{title}' added successfully!")
+
+    def view_all_books(self):
+        if not self.books:
+            print("No books available in the library.")
+        else:
+            print("Library Collection:")
+            for isbn, details in self.books.items():
+                print(f"ISBN: {isbn}, Title: {details['title']}, Author: {details['author']}, "
+                      f"Status: {'Available' if details['availability'] else 'Not Available'}")
+
+
+if __name__ == "__main__":
+    library = LibraryManagementSystem()
+    library.add_book("Harry Potter", "J.K. Rowling", "1234")
+    library.view_all_books()
