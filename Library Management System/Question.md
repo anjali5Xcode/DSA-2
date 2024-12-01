@@ -36,6 +36,23 @@ A simplified Library Management System implemented in Python, Java, and C++ to m
 
 ---
 
+##Input/ Output
+
+-**Example**
+   1. Add Book
+   Input:
+
+   AddBook:  
+   Title: Harry Potter  
+   Author: J.K. Rowling  
+   ISBN: 1234  
+   Output:
+
+
+   Book 'Harry Potter' added successfully!
+
+---
+
 ## Technologies
 
 The project is implemented in the following languages:
